@@ -57,12 +57,6 @@ head "Building dependencies"
 cd $build_dir
 build_dependencies
 
-####### Create a Procfile if possible
-
-head "Checking startup method"
-ensure_procfile "$start_method" "$build_dir"
-warn_start "$start_method"
-
 ####### Finalize the build
 
 head "Finalizing build"

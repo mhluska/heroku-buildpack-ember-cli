@@ -28,12 +28,8 @@ build_succeeded() {
 
 get_start_method() {
   local build_dir=$1
-  if test -f $build_dir/Procfile; then
-    echo "Procfile"
-  elif [[ $(read_json "$build_dir/package.json" ".scripts.start") != "" ]]; then
+  if [[ $(read_json "$build_dir/package.json" ".scripts.start") != "" ]]; then
     echo "npm start"
-  elif test -f $build_dir/server.js; then
-    echo "server.js"
   else
     echo ""
   fi
@@ -181,7 +177,7 @@ function build_dependencies() {
     npm rebuild 2>&1 | indent
     info "Installing any new modules"
     npm install --unsafe-perm --quiet --userconfig $build_dir/.npmrc 2>&1 | indent
-    
+
   else
     restore_cache
     info "Installing node modules"
@@ -190,24 +186,6 @@ function build_dependencies() {
 
   $(npm bin)/bower install
   $(npm bin)/ember build --environment production --output-path ../public
-}
-
-ensure_procfile() {
-  local start_method=$1
-  local build_dir=$2
-  if [ "$start_method" == "Procfile" ]; then
-    info "Found Procfile"
-  elif test -f $build_dir/Procfile; then
-    info "Procfile created during build"
-  elif [ "$start_method" == "npm start" ]; then
-    info "No Procfile; Adding 'web: npm start' to new Procfile"
-    echo "web: npm start" > $build_dir/Procfile
-  elif [ "$start_method" == "server.js" ]; then
-    info "No Procfile; Adding 'web: node server.js' to new Procfile"
-    echo "web: node server.js" > $build_dir/Procfile
-  else
-    info "None found"
-  fi
 }
 
 write_profile() {

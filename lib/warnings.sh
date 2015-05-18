@@ -18,13 +18,6 @@ warn_node_modules() {
   fi
 }
 
-warn_start() {
-  local start_method=$1
-  if [ "$start_method" == "" ]; then
-    warning "No Procfile, package.json start script, or server.js file found" "https://devcenter.heroku.com/articles/nodejs-support#runtime-behavior"
-  fi
-}
-
 warn_old_npm() {
   local npm_version=$1
   if [ "${npm_version:0:1}" -lt "2" ]; then
