@@ -181,12 +181,15 @@ function build_dependencies() {
     npm rebuild 2>&1 | indent
     info "Installing any new modules"
     npm install --unsafe-perm --quiet --userconfig $build_dir/.npmrc 2>&1 | indent
-
+    
   else
     restore_cache
     info "Installing node modules"
     npm install --unsafe-perm --quiet --userconfig $build_dir/.npmrc 2>&1 | indent
   fi
+
+  $(npm bin)/bower install
+  $(npm bin)/ember build --environment production --output-path ../public
 }
 
 ensure_procfile() {
