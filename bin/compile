@@ -9,7 +9,7 @@ set -o posix      # more strict failures in subshells
 # set -x          # enable debugging
 
 # Configure directories
-build_dir=$1
+build_dir=$1/client
 cache_dir=$2
 env_dir=$3
 bp_dir=$(cd $(dirname $0); cd ..; pwd)
